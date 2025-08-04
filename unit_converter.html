@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Einheitenumrechner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+            position: relative;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 80px; /* Platz für AdSense-Balken */
+        }
+
+        .adsense-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: #fff;
+            border-top: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .adsense-placeholder {
+            color: #888;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .intro-text {
+            position: absolute;
+            font-family: 'Kalam', cursive;
+            color: #ccc;
+            font-size: 1.3rem;
+            z-index: 10;
+            pointer-events: none;
+            font-weight: 600;
+            transform: rotate(-2deg);
+        }
+
+        .intro-step1 {
+            top: 70px;
+            left: 50px;
+        }
+
+        .intro-step2 {
+            top: 350px;
+            left: 50px;
+            transition: opacity 0.5s ease;
+            font-size: 1.4rem;
+        }
+
+        .intro-step2.hidden {
+            opacity: 0;
+        }
+
+        .intro-arrow2.hidden {
+            opacity: 0;
+        }
+
+        .intro-arrow {
+            position: absolute;
+            width: 80px;
+            height: 40px;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .intro-arrow1 {
+            top: 105px;
+            left: 350px;
+        }
+
+        .intro-arrow2 {
+            top: 385px;
+            left: 520px;
+            transition: opacity 0.5s ease;
+        }
+
+        @media (max-width: 768px) {
+            .intro-text {
+                display: none;
+            }
+            .intro-arrow {
+                display: none;
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: white;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            color: rgba(255,255,255,0.9);
+            font-size: 1.1rem;
+        }
+
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
+        }
+
+        .tab.math {
+            background: #4facfe;
+            color: white;
+        }
+
+        .tab.science {
+            background: #43e97b;
+            color: white;
+        }
+
+        .tab.active {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .category-selector {
+            margin-bottom: 25px;
+        }
+
+        .category-selector select {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: normal;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .category-selector select:focus {
+            border-color: #4facfe;
+        }
+
+        .converter {
+            display: none;
+        }
+
+        .converter.active {
+            display: block;
+        }
+
+        .input-section {
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .unit-select {
+            flex: 1;
+            padding: 12px;
+            font-size: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            background: #f8f9fa;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .unit-select:focus {
+            border-color: #4facfe;
+        }
+
+        .value-input {
+            flex: 2;
+            padding: 12px;
+            font-size: 1.2rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            outline: none;
+            text-align: center;
+            transition: border-color 0.3s ease;
+        }
+
+        .value-input:focus {
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .value-input::-webkit-outer-spin-button,
+        .value-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .value-input[type=number] {
+            -moz-appearance: textfield;
+        }
+
+        .results {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .results h3 {
+            margin-bottom: 15px;
+            color: #333;
+            font-size: 1.2rem;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: white;
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .result-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .result-unit {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .result-value {
+            font-size: 1.1rem;
+            color: #4facfe;
+            font-weight: 600;
+        }
+
+        .no-conversion {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 20px;
+        }
+
+        .visual-helper {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f0f7ff;
+            border-radius: 10px;
+            border: 2px solid #e3f2fd;
+        }
+
+        .visual-helper h4 {
+            margin-bottom: 10px;
+            color: #1976d2;
+            font-size: 1rem;
+        }
+
+        .unit-chain {
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-wrap: nowrap;
+            gap: 6px;
+            margin: 15px 0;
+            overflow-x: auto;
+            padding: 5px;
+        }
+
+        .unit-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .forward-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 40px;
+        }
+
+        .backward-line {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 40px;
+        }
+
+        .unit-box {
+            padding: 8px 12px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: 50px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .unit-box.active {
+            background: #4facfe;
+            color: white;
+            border-color: #4facfe;
+        }
+
+        .unit-box.transparent {
+            background: rgba(255, 255, 255, 1) !important;
+            border-color: rgba(221, 221, 221, 1) !important;
+            color: rgba(51, 51, 51, 1) !important;
+        }
+
+        .unit-box.transparent.active {
+            background: rgba(79, 172, 254, 1) !important;
+            border-color: rgba(79, 172, 254, 1) !important;
+            color: rgba(255, 255, 255, 1) !important;
+        }
+
+        .conversion-factor {
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            min-width: 60px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .forward-factor {
+            background: rgba(79, 172, 254, 0.1);
+            color: #4facfe;
+            border: 1px solid rgba(79, 172, 254, 0.3);
+        }
+
+        .backward-factor {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .small-arrow {
+            font-size: 0.8rem;
+            color: #666;
+            font-weight: 600;
+            width: 16px;
+            text-align: center;
+        }
+
+        .arrow-right::before {
+            content: '→';
+        }
+
+        .arrow-left::before {
+            content: '←';
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .tab {
+                padding: 12px;
+                font-size: 1rem;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .value-input, .unit-select {
+                padding: 15px;
+                font-size: 1.1rem;
+            }
+
+            .unit-chain {
+                gap: 4px;
+            }
+            
+            .unit-box {
+                min-width: 40px;
+                font-size: 0.8rem;
+                padding: 6px 8px;
+            }
+            
+            .conversion-factor {
+                min-width: 50px;
+                font-size: 0.7rem;
+                padding: 4px 6px;
+            }
+            
+            .small-arrow {
+                font-size: 0.7rem;
+                width: 12px;
+            }
+            
+            .features-grid {
+                flex-direction: column;
+            }
+            
+            .use-cases {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .use-case {
+                margin: 5px 0;
+            }
+        }
+        
+        /* SEO Content Styles */
+        .seo-content {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            line-height: 1.6;
+        }
+        
+        .seo-content h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .seo-content h3 {
+            color: #4facfe;
+            font-size: 1.3rem;
+            margin: 25px 0 15px 0;
+        }
+        
+        .seo-content p {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+        
+        .features-grid {
+            display: flex;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .feature-box {
+            flex: 1;
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #4facfe;
+        }
+        
+        .feature-box h3 {
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+        
+        .feature-box ul {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .feature-box li {
+            padding: 5px 0;
+            color: #666;
+        }
+        
+        .feature-box strong {
+            color: #333;
+        }
+        
+        .use-cases {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .use-case {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📐 Einheitenumrechner</h1>
+            <p>Für die Oberstufe optimiert - Kostenlos für alle Schüler</p>
+        </header>
+
+        <div class="tab-container">
+            <button class="tab math active" onclick="switchTab('math')">📊 Mathematik</button>
+            <button class="tab science" onclick="switchTab('science')">🔬 Natur & Technik</button>
+        </div>
+
+        <div class="content">
+            <div class="category-selector">
+                <select id="categorySelect" onchange="showConverter()">
+                    <option value="">Masseinheit wählen...</option>
+                </select>
+            </div>
+
+            <div id="converter" class="converter">
+                <div class="input-section">
+                    <div class="input-group">
+                        <select id="fromUnit" class="unit-select" onchange="convert()"></select>
+                        <input type="text" id="valueInput" class="value-input" placeholder="Wert eingeben..." oninput="handleInput(this)" onkeypress="return isNumberKey(event)">
+                    </div>
+                </div>
+
+                <div class="results">
+                    <h3>Umrechnungen:</h3>
+                    <div id="resultsList"></div>
+                    <div id="visualHelper" class="visual-helper"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- SEO Content Section -->
+        <section class="seo-content">
+            <h2>Einheiten einfach umrechnen - für Schule und Studium</h2>
+            <p>Unser kostenloser <strong>Einheitenumrechner</strong> hilft Schülern beim präzisen Umrechnen von <strong>Längen</strong> (km, m, cm, mm), <strong>Gewichten</strong> (t, kg, g, mg), <strong>Zeiten</strong> (h, min, s) und vielen weiteren Masseinheiten. Mit der einzigartigen <strong>visuellen Merkhilfe</strong> verstehst du die Umrechnungsfaktoren sofort und merkst sie dir dauerhaft.</p>
+            
+            <div class="features-grid">
+                <div class="feature-box">
+                    <h3>📏 Mathematik</h3>
+                    <ul>
+                        <li><strong>Länge:</strong> km, m, dm, cm, mm, μm</li>
+                        <li><strong>Gewicht:</strong> t, kg, g, mg, μg</li>
+                        <li><strong>Zeit:</strong> d, h, min, s, ms</li>
+                        <li><strong>Fläche:</strong> km², ha, a, m², dm², cm², mm²</li>
+                        <li><strong>Volumen:</strong> km³, m³, l, dm³, ml, cm³, mm³</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-box">
+                    <h3>🔬 Natur & Technik</h3>
+                    <ul>
+                        <li><strong>Kraft:</strong> N, kN, mN</li>
+                        <li><strong>Geschwindigkeit:</strong> m/s, km/h, mph</li>
+                        <li><strong>Energie:</strong> J, kJ, Wh, kWh, cal</li>
+                        <li><strong>Leistung:</strong> W, kW, MW, PS</li>
+                        <li><strong>Temperatur:</strong> °C, °F</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3>Perfekt geeignet für:</h3>
+            <div class="use-cases">
+                <span class="use-case">✅ Mathematik-Hausaufgaben</span>
+                <span class="use-case">✅ Physik-Berechnungen</span>
+                <span class="use-case">✅ Chemie-Aufgaben</span>
+                <span class="use-case">✅ Prüfungsvorbereitung</span>
+                <span class="use-case">✅ Schnelle Umrechnungen</span>
+            </div>
+            
+            <h3>Warum EinheitenRechner.ch?</h3>
+            <p>Im Gegensatz zu anderen Umrechnern bietet unsere Plattform eine <strong>einzigartige visuelle Merkhilfe</strong>, die dir zeigt, wie die Umrechnungsfaktoren zusammenhängen. Du siehst nicht nur das Ergebnis, sondern verstehst auch den <strong>Hin- und Rückweg</strong> zwischen den Einheiten.</p>
+        </section>
+    </div>
+
+    <!-- AdSense Banner -->
+    <div class="adsense-banner">
+        <div class="adsense-placeholder">
+            <!-- Hier würde Ihr Google AdSense Code stehen -->
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXX"></script>
+            <!-- AdSense Banner -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXX"
+                 data-ad-slot="XXXXXXXXX"
+                 data-ad-format="horizontal"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+
+    <script>
+        const conversions = {
+            math: {
+                'Länge': {
+                    units: {
+                        'Kilometer (km)': '1000',
+                        'Meter (m)': '1',
+                        'Dezimeter (dm)': '0.1',
+                        'Zentimeter (cm)': '0.01',
+                        'Millimeter (mm)': '0.001',
+                        'Mikrometer (μm)': '0.000001'
+                    },
+                    shortUnits: {
+                        'Kilometer (km)': 'km',
+                        'Meter (m)': 'm',
+                        'Dezimeter (dm)': 'dm',
+                        'Zentimeter (cm)': 'cm',
+                        'Millimeter (mm)': 'mm',
+                        'Mikrometer (μm)': 'μm'
+                    },
+                    baseUnit: 'm',
+                    visualOrder: ['km', 'm', 'dm', 'cm', 'mm', 'μm']
+                },
+                'Gewicht': {
+                    units: {
+                        'Tonnen (t)': '1000000',
+                        'Kilogramm (kg)': '1000',
+                        'Gramm (g)': '1',
+                        'Milligramm (mg)': '0.001',
+                        'Mikrogramm (μg)': '0.000001'
+                    },
+                    shortUnits: {
+                        'Tonnen (t)': 't',
+                        'Kilogramm (kg)': 'kg',
+                        'Gramm (g)': 'g',
+                        'Milligramm (mg)': 'mg',
+                        'Mikrogramm (μg)': 'μg'
+                    },
+                    baseUnit: 'g',
+                    visualOrder: ['t', 'kg', 'g', 'mg', 'μg']
+                },
+                'Zeit': {
+                    units: {
+                        'Tage (d)': '86400',
+                        'Stunden (h)': '3600',
+                        'Minuten (min)': '60',
+                        'Sekunden (s)': '1',
+                        'Millisekunden (ms)': '0.001'
+                    },
+                    shortUnits: {
+                        'Tage (d)': 'd',
+                        'Stunden (h)': 'h',
+                        'Minuten (min)': 'min',
+                        'Sekunden (s)': 's',
+                        'Millisekunden (ms)': 'ms'
+                    },
+                    baseUnit: 's',
+                    visualOrder: ['d', 'h', 'min', 's', 'ms']
+                },
+                'Fläche': {
+                    units: {
+                        'Quadratkilometer (km²)': '1000000',
+                        'Hektar (ha)': '10000',
+                        'Ar (a)': '100',
+                        'Quadratmeter (m²)': '1',
+                        'Quadratdezimeter (dm²)': '0.01',
+                        'Quadratzentimeter (cm²)': '0.0001',
+                        'Quadratmillimeter (mm²)': '0.000001'
+                    },
+                    shortUnits: {
+                        'Quadratkilometer (km²)': 'km²',
+                        'Hektar (ha)': 'ha',
+                        'Ar (a)': 'a',
+                        'Quadratmeter (m²)': 'm²',
+                        'Quadratdezimeter (dm²)': 'dm²',
+                        'Quadratzentimeter (cm²)': 'cm²',
+                        'Quadratmillimeter (mm²)': 'mm²'
+                    },
+                    baseUnit: 'm²',
+                    visualOrder: ['km²', 'ha', 'a', 'm²', 'dm²', 'cm²', 'mm²']
+                },
+                'Volumen': {
+                    units: {
+                        'Kubikkilometer (km³)': '1000000000',
+                        'Kubikmeter (m³)': '1',
+                        'Liter (l)': '0.001',
+                        'Kubikdezimeter (dm³)': '0.001',
+                        'Milliliter (ml)': '0.000001',
+                        'Kubikzentimeter (cm³)': '0.000001',
+                        'Kubikmillimeter (mm³)': '0.000000001'
+                    },
+                    shortUnits: {
+                        'Kubikkilometer (km³)': 'km³',
+                        'Kubikmeter (m³)': 'm³',
+                        'Liter (l)': 'l',
+                        'Kubikdezimeter (dm³)': 'dm³',
+                        'Milliliter (ml)': 'ml',
+                        'Kubikzentimeter (cm³)': 'cm³',
+                        'Kubikmillimeter (mm³)': 'mm³'
+                    },
+                    baseUnit: 'm³',
+                    visualOrder: ['km³', 'm³', 'dm³', 'l', 'cm³', 'ml', 'mm³']
+                },
+                'Litereinheiten': {
+                    units: {
+                        'Liter (l)': '1',
+                        'Deziliter (dl)': '0.1',
+                        'Zentiliter (cl)': '0.01',
+                        'Milliliter (ml)': '0.001'
+                    },
+                    shortUnits: {
+                        'Liter (l)': 'l',
+                        'Deziliter (dl)': 'dl',
+                        'Zentiliter (cl)': 'cl',
+                        'Milliliter (ml)': 'ml'
+                    },
+                    baseUnit: 'l',
+                    visualOrder: ['l', 'dl', 'cl', 'ml']
+                }
+            },
+            science: {
+                'Kraft': {
+                    units: {
+                        'Newton (N)': '1',
+                        'Kilonewton (kN)': '1000',
+                        'Millinewton (mN)': '0.001'
+                    },
+                    shortUnits: {
+                        'Newton (N)': 'N',
+                        'Kilonewton (kN)': 'kN',
+                        'Millinewton (mN)': 'mN'
+                    },
+                    baseUnit: 'N',
+                    visualOrder: ['kN', 'N', 'mN']
+                },
+                'Geschwindigkeit': {
+                    units: {
+                        'Meter pro Sekunde (m/s)': '1',
+                        'Kilometer pro Stunde (km/h)': '0.277777777777777778',
+                        'Meilen pro Stunde (mph)': '0.44704'
+                    },
+                    shortUnits: {
+                        'Meter pro Sekunde (m/s)': 'm/s',
+                        'Kilometer pro Stunde (km/h)': 'km/h',
+                        'Meilen pro Stunde (mph)': 'mph'
+                    },
+                    baseUnit: 'm/s',
+                    visualOrder: ['km/h', 'm/s', 'mph']
+                },
+                'Energie': {
+                    units: {
+                        'Joule (J)': '1',
+                        'Kilojoule (kJ)': '1000',
+                        'Wattstunden (Wh)': '3600',
+                        'Kilowattstunden (kWh)': '3600000',
+                        'Kalorien (cal)': '4.184'
+                    },
+                    shortUnits: {
+                        'Joule (J)': 'J',
+                        'Kilojoule (kJ)': 'kJ',
+                        'Wattstunden (Wh)': 'Wh',
+                        'Kilowattstunden (kWh)': 'kWh',
+                        'Kalorien (cal)': 'cal'
+                    },
+                    baseUnit: 'J',
+                    visualOrder: ['kWh', 'Wh', 'kJ', 'J', 'cal']
+                },
+                'Leistung': {
+                    units: {
+                        'Watt (W)': '1',
+                        'Kilowatt (kW)': '1000',
+                        'Megawatt (MW)': '1000000',
+                        'Pferdestärken (PS)': '735.5'
+                    },
+                    shortUnits: {
+                        'Watt (W)': 'W',
+                        'Kilowatt (kW)': 'kW',
+                        'Megawatt (MW)': 'MW',
+                        'Pferdestärken (PS)': 'PS'
+                    },
+                    baseUnit: 'W',
+                    visualOrder: ['MW', 'kW', 'W', 'PS']
+                },
+                'Temperatur': {
+                    units: {
+                        'Celsius (°C)': 'celsius',
+                        'Fahrenheit (°F)': 'fahrenheit'
+                    },
+                    shortUnits: {
+                        'Celsius (°C)': '°C',
+                        'Fahrenheit (°F)': '°F'
+                    },
+                    special: true,
+                    visualOrder: ['°C', '°F']
+                }
+            }
+        };
+
+        let currentTab = 'math';
+        let currentCategory = '';
+
+        function switchTab(tab) {
+            currentTab = tab;
+            
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.tab.${tab}`).classList.add('active');
+            
+            updateCategoryOptions();
+            
+            document.getElementById('converter').classList.remove('active');
+            document.getElementById('visualHelper').innerHTML = '';
+        }
+
+        function updateCategoryOptions() {
+            const select = document.getElementById('categorySelect');
+            select.innerHTML = '<option value="">Masseinheit wählen...</option>';
+            
+            const categoryLabels = {
+                math: {
+                    'Länge': 'Länge (km, m, dm, cm, mm, μm)',
+                    'Gewicht': 'Gewicht (t, kg, g, mg, μg)',
+                    'Zeit': 'Zeit (d, h, min, s, ms)',
+                    'Fläche': 'Fläche (km², ha, a, m², dm², cm², mm²)',
+                    'Volumen': 'Volumen (km³, m³, l, dm³, ml, cm³, mm³)',
+                    'Litereinheiten': 'Litereinheiten (l, dl, cl, ml)'
+                },
+                science: {
+                    'Kraft': 'Kraft (N, kN, mN)',
+                    'Geschwindigkeit': 'Geschwindigkeit (m/s, km/h, mph)',
+                    'Energie': 'Energie (J, kJ, Wh, kWh, cal)',
+                    'Leistung': 'Leistung (W, kW, MW, PS)',
+                    'Temperatur': 'Temperatur (°C, °F)'
+                }
+            };
+            
+            Object.keys(conversions[currentTab]).forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = categoryLabels[currentTab][category];
+                select.appendChild(option);
+            });
+        }
+
+        function showConverter() {
+            const category = document.getElementById('categorySelect').value;            
+            if (!category) {
+                document.getElementById('converter').classList.remove('active');
+                return;
+            }
+            
+            currentCategory = category;
+            const converter = document.getElementById('converter');
+            const fromUnit = document.getElementById('fromUnit');
+            
+            fromUnit.innerHTML = '';
+            const units = conversions[currentTab][category].units;
+            Object.keys(units).forEach(unit => {
+                const option = document.createElement('option');
+                option.value = unit;
+                option.textContent = unit;
+                fromUnit.appendChild(option);
+            });
+            
+            converter.classList.add('active');
+            
+            // Show visual helper immediately for the first unit
+            if (Object.keys(units).length > 0) {
+                const firstUnit = Object.keys(units)[0];
+                const categoryData = conversions[currentTab][category];
+                showVisualHelper(firstUnit, categoryData);
+            }
+            
+            // Clear input and results
+            document.getElementById('valueInput').value = '';
+            document.getElementById('resultsList').innerHTML = '<div class="no-conversion">Gib einen Wert ein, um die Umrechnung zu sehen</div>';
+        }
+
+        function handleInput(input) {
+            let value = input.value.replace(/[^\d,'.]/g, '');
+            
+            let cleanValue = value.replace(/'/g, '');
+            
+            let decimalSeparator = '';
+            let lastComma = cleanValue.lastIndexOf(',');
+            let lastDot = cleanValue.lastIndexOf('.');
+            
+            let integerPart, decimalPart = '';
+            
+            if (lastComma > lastDot && lastComma > -1) {
+                decimalSeparator = ',';
+                integerPart = cleanValue.substring(0, lastComma).replace(/[,.]/g, '');
+                decimalPart = cleanValue.substring(lastComma + 1);
+            } else if (lastDot > lastComma && lastDot > -1) {
+                decimalSeparator = '.';
+                integerPart = cleanValue.substring(0, lastDot).replace(/[,.]/g, '');
+                decimalPart = cleanValue.substring(lastDot + 1);
+            } else {
+                integerPart = cleanValue.replace(/[,.]/g, '');
+            }
+            
+            if (integerPart.length > 3) {
+                integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+            }
+            
+            if (decimalPart !== '') {
+                input.value = integerPart + decimalSeparator + decimalPart;
+            } else if (value.endsWith(',') || value.endsWith('.')) {
+                input.value = integerPart + decimalSeparator;
+            } else {
+                input.value = integerPart;
+            }
+            
+            convert();
+        }
+
+        function isNumberKey(evt) {
+            const charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57) && charCode !== 44 && charCode !== 46 && charCode !== 39)
+                return false;
+            return true;
+        }
+
+        function convert() {
+            const inputValue = document.getElementById('valueInput').value;
+            const fromUnit = document.getElementById('fromUnit').value;
+            const resultsList = document.getElementById('resultsList');
+            const visualHelper = document.getElementById('visualHelper');
+            const categoryData = conversions[currentTab][currentCategory];
+            
+            // Always show visual helper for the selected unit
+            if (fromUnit && categoryData) {
+                showVisualHelper(fromUnit, categoryData);
+            }
+            
+            let cleanValue = inputValue.replace(/'/g, '');
+            
+            let lastComma = cleanValue.lastIndexOf(',');
+            let lastDot = cleanValue.lastIndexOf('.');
+            
+            if (lastComma > lastDot && lastComma > -1) {
+                cleanValue = cleanValue.substring(0, lastComma).replace(/[,.]/g, '') + '.' + cleanValue.substring(lastComma + 1);
+            } else if (lastDot > lastComma && lastDot > -1) {
+                cleanValue = cleanValue.substring(0, lastDot).replace(/[,.]/g, '') + '.' + cleanValue.substring(lastDot + 1);
+            } else {
+                cleanValue = cleanValue.replace(/[,.]/g, '');
+            }
+            
+            const value = cleanValue;
+            
+            if (!value || isNaN(parseFloat(value)) || !fromUnit || !currentCategory) {
+                resultsList.innerHTML = '<div class="no-conversion">Gib einen Wert ein, um die Umrechnung zu sehen</div>';
+                return;
+            }
+            
+            if (categoryData.special && currentCategory === 'Temperatur') {
+                convertTemperature(parseFloat(value), fromUnit, resultsList);
+                return;
+            }
+            
+            const units = categoryData.units;
+            const fromFactor = units[fromUnit];
+            
+            resultsList.innerHTML = '';
+            
+            Object.keys(units).forEach(unit => {
+                if (unit !== fromUnit) {
+                    const toFactor = units[unit];
+                    
+                    const result = preciseCalculate(value, fromFactor, toFactor);
+                    
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'result-item';
+                    resultItem.innerHTML = `
+                        <span class="result-unit">${unit}</span>
+                        <span class="result-value">${formatNumber(result)}</span>
+                    `;
+                    resultsList.appendChild(resultItem);
+                }
+            });
+        }
+
+        function preciseCalculate(value, fromFactor, toFactor) {
+            const valueNum = parseFloat(value);
+            const fromFactorNum = parseFloat(fromFactor);
+            const toFactorNum = parseFloat(toFactor);
+            
+            const result = (valueNum * fromFactorNum) / toFactorNum;
+            
+            return Math.round(result * 1e10) / 1e10;
+        }
+
+        function convertTemperature(value, fromUnit, resultsList) {
+            resultsList.innerHTML = '';
+            
+            const categoryData = conversions[currentTab][currentCategory];
+            
+            if (fromUnit === 'Celsius (°C)') {
+                const fahrenheit = Math.round(((value * 9/5) + 32) * 100) / 100;
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.innerHTML = `
+                    <span class="result-unit">Fahrenheit (°F)</span>
+                    <span class="result-value">${formatNumber(fahrenheit)}</span>
+                `;
+                resultsList.appendChild(resultItem);
+            } else if (fromUnit === 'Fahrenheit (°F)') {
+                const celsius = Math.round(((value - 32) * 5/9) * 100) / 100;
+                const resultItem = document.createElement('div');
+                resultItem.className = 'result-item';
+                resultItem.innerHTML = `
+                    <span class="result-unit">Celsius (°C)</span>
+                    <span class="result-value">${formatNumber(celsius)}</span>
+                `;
+                resultsList.appendChild(resultItem);
+            }
+            
+            showVisualHelper(fromUnit, categoryData);
+        }
+
+        function showVisualHelper(selectedUnit, categoryData) {
+            const visualHelper = document.getElementById('visualHelper');
+            
+            if (!categoryData.visualOrder) {
+                visualHelper.innerHTML = '';
+                return;
+            }
+            
+            // Special handling for temperature
+            if (categoryData.special && currentCategory === 'Temperatur') {
+                const selectedShort = categoryData.shortUnits[selectedUnit];
+                
+                let helperHTML = '<h4>📏 Merkhilfe:</h4>';
+                helperHTML += '<div class="unit-chain">';
+                helperHTML += '<div class="unit-section">';
+                
+                // Forward line
+                helperHTML += '<div class="forward-line">';
+                helperHTML += `<div class="unit-box ${selectedShort === '°C' ? 'active' : ''}">°C</div>`;
+                helperHTML += '<span class="small-arrow arrow-right"></span>';
+                helperHTML += '<span class="conversion-factor forward-factor">×9÷5+32</span>';
+                helperHTML += '<span class="small-arrow arrow-right"></span>';
+                helperHTML += `<div class="unit-box ${selectedShort === '°F' ? 'active' : ''}">°F</div>`;
+                helperHTML += '</div>';
+                
+                // Backward line
+                helperHTML += '<div class="backward-line">';
+                helperHTML += `<div class="unit-box transparent ${selectedShort === '°C' ? 'active' : ''}">°C</div>`;
+                helperHTML += '<span class="small-arrow arrow-left"></span>';
+                helperHTML += '<span class="conversion-factor backward-factor">-32×5÷9</span>';
+                helperHTML += '<span class="small-arrow arrow-left"></span>';
+                helperHTML += `<div class="unit-box transparent ${selectedShort === '°F' ? 'active' : ''}">°F</div>`;
+                helperHTML += '</div>';
+                
+                helperHTML += '</div>'; // End unit-section
+                helperHTML += '</div>';
+                visualHelper.innerHTML = helperHTML;
+                return;
+            }
+            
+            const selectedShort = categoryData.shortUnits[selectedUnit];
+            const visualOrder = categoryData.visualOrder;
+            
+            let helperHTML = '<h4>📏 Merkhilfe:</h4>';
+            helperHTML += '<div class="unit-chain">';
+            
+            // Create forward line
+            helperHTML += '<div class="unit-section">';
+            helperHTML += '<div class="forward-line">';
+            
+            for (let i = 0; i < visualOrder.length; i++) {
+                const unitShort = visualOrder[i];
+                const isActive = unitShort === selectedShort;
+                
+                if (i > 0) helperHTML += '<span class="small-arrow arrow-right"></span>';
+                helperHTML += `<div class="unit-box ${isActive ? 'active' : ''}">${unitShort}</div>`;
+                
+                if (i < visualOrder.length - 1) {
+                    const currentUnit = getUnitKeyByShort(unitShort, categoryData);
+                    const nextUnit = getUnitKeyByShort(visualOrder[i + 1], categoryData);
+                    
+                    if (currentUnit && nextUnit) {
+                        const currentFactor = parseFloat(categoryData.units[currentUnit]);
+                        const nextFactor = parseFloat(categoryData.units[nextUnit]);
+                        const ratio = currentFactor / nextFactor;
+                        const roundedRatio = Math.round(ratio * 10000) / 10000;
+                        
+                        let forwardText = '';
+                        
+                        if (roundedRatio >= 1) {
+                            if (Math.abs(roundedRatio - 10) < 0.0001) forwardText = '×10';
+                            else if (Math.abs(roundedRatio - 100) < 0.0001) forwardText = '×100';
+                            else if (Math.abs(roundedRatio - 1000) < 0.0001) forwardText = '×1\'000';
+                            else if (Math.abs(roundedRatio - 1000000) < 0.0001) forwardText = '×1\'000\'000';
+                            else if (Math.abs(roundedRatio - 60) < 0.0001) forwardText = '×60';
+                            else if (Math.abs(roundedRatio - 24) < 0.0001) forwardText = '×24';
+                            else forwardText = `×${formatNumberForArrow(roundedRatio)}`;
+                        } else {
+                            const divRatio = Math.round((1/ratio) * 10000) / 10000;
+                            if (Math.abs(divRatio - 10) < 0.0001) forwardText = '÷10';
+                            else if (Math.abs(divRatio - 100) < 0.0001) forwardText = '÷100';
+                            else if (Math.abs(divRatio - 1000) < 0.0001) forwardText = '÷1\'000';
+                            else if (Math.abs(divRatio - 1000000) < 0.0001) forwardText = '÷1\'000\'000';
+                            else forwardText = `÷${formatNumberForArrow(divRatio)}`;
+                        }
+                        
+                        helperHTML += '<span class="small-arrow arrow-right"></span>';
+                        helperHTML += `<span class="conversion-factor forward-factor">${forwardText}</span>`;
+                    }
+                }
+            }
+            
+            helperHTML += '</div>'; // End forward-line
+            
+            // Create backward line
+            helperHTML += '<div class="backward-line">';
+            
+            for (let i = 0; i < visualOrder.length; i++) {
+                const unitShort = visualOrder[i];
+                const isActive = unitShort === selectedShort;
+                
+                if (i > 0) helperHTML += '<span class="small-arrow arrow-left"></span>';
+                helperHTML += `<div class="unit-box transparent ${isActive ? 'active' : ''}">${unitShort}</div>`;
+                
+                if (i < visualOrder.length - 1) {
+                    const currentUnit = getUnitKeyByShort(unitShort, categoryData);
+                    const nextUnit = getUnitKeyByShort(visualOrder[i + 1], categoryData);
+                    
+                    if (currentUnit && nextUnit) {
+                        const currentFactor = parseFloat(categoryData.units[currentUnit]);
+                        const nextFactor = parseFloat(categoryData.units[nextUnit]);
+                        const ratio = currentFactor / nextFactor;
+                        const roundedRatio = Math.round(ratio * 10000) / 10000;
+                        
+                        let backwardText = '';
+                        
+                        if (roundedRatio >= 1) {
+                            if (Math.abs(roundedRatio - 10) < 0.0001) backwardText = '÷10';
+                            else if (Math.abs(roundedRatio - 100) < 0.0001) backwardText = '÷100';
+                            else if (Math.abs(roundedRatio - 1000) < 0.0001) backwardText = '÷1\'000';
+                            else if (Math.abs(roundedRatio - 1000000) < 0.0001) backwardText = '÷1\'000\'000';
+                            else if (Math.abs(roundedRatio - 60) < 0.0001) backwardText = '÷60';
+                            else if (Math.abs(roundedRatio - 24) < 0.0001) backwardText = '÷24';
+                            else backwardText = `÷${formatNumberForArrow(roundedRatio)}`;
+                        } else {
+                            const divRatio = Math.round((1/ratio) * 10000) / 10000;
+                            if (Math.abs(divRatio - 10) < 0.0001) backwardText = '×10';
+                            else if (Math.abs(divRatio - 100) < 0.0001) backwardText = '×100';
+                            else if (Math.abs(divRatio - 1000) < 0.0001) backwardText = '×1\'000';
+                            else if (Math.abs(divRatio - 1000000) < 0.0001) backwardText = '×1\'000\'000';
+                            else backwardText = `×${formatNumberForArrow(divRatio)}`;
+                        }
+                        
+                        helperHTML += '<span class="small-arrow arrow-left"></span>';
+                        helperHTML += `<span class="conversion-factor backward-factor">${backwardText}</span>`;
+                    }
+                }
+            }
+            
+            helperHTML += '</div>'; // End backward-line
+            helperHTML += '</div>'; // End unit-section
+            
+            helperHTML += '</div>';
+            visualHelper.innerHTML = helperHTML;
+            
+            // Scroll selected unit into view
+            setTimeout(() => {
+                const activeUnit = visualHelper.querySelector('.unit-box.active');
+                if (activeUnit) {
+                    const unitChain = visualHelper.querySelector('.unit-chain');
+                    if (unitChain) {
+                        const unitChainRect = unitChain.getBoundingClientRect();
+                        const activeUnitRect = activeUnit.getBoundingClientRect();
+                        
+                        // Calculate if element is outside visible area
+                        const leftOffset = activeUnitRect.left - unitChainRect.left;
+                        const rightOffset = activeUnitRect.right - unitChainRect.right;
+                        
+                        if (leftOffset < 0) {
+                            // Element is to the left of visible area
+                            unitChain.scrollLeft += leftOffset - 20; // 20px padding
+                        } else if (rightOffset > 0) {
+                            // Element is to the right of visible area
+                            unitChain.scrollLeft += rightOffset + 20; // 20px padding
+                        }
+                    }
+                }
+            }, 10);
+        }
+
+        function formatNumberForArrow(num) {
+            if (num === 0) return '0';
+            
+            if (Math.abs(num - Math.round(num)) < 1e-10) {
+                let result = Math.round(num).toString();
+                if (result.length > 3) {
+                    result = result.replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+                }
+                return result;
+            }
+            
+            let result = num.toFixed(3).replace(/\.?0+$/, '');
+            const parts = result.split('.');
+            let integerPart = parts[0];
+            const decimalPart = parts[1];
+            
+            if (integerPart.length > 3) {
+                integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+            }
+            
+            if (decimalPart) {
+                return integerPart + '.' + decimalPart;
+            } else {
+                return integerPart;
+            }
+        }
+
+        function getUnitKeyByShort(shortUnit, categoryData) {
+            for (const [key, value] of Object.entries(categoryData.shortUnits)) {
+                if (value === shortUnit) {
+                    return key;
+                }
+            }
+            return null;
+        }
+
+        function formatNumber(num) {
+            if (num === 0) {
+                return '0';
+            }
+            
+            let result;
+            
+            if (Math.abs(num - Math.round(num)) < 1e-15) {
+                result = Math.round(num).toString();
+            } else {
+                const absNum = Math.abs(num);
+                let decimalPlaces = 0;
+                
+                if (absNum >= 1) {
+                    decimalPlaces = 15;
+                } else {
+                    let temp = absNum;
+                    while (temp < 1 && decimalPlaces < 50) {
+                        temp *= 10;
+                        decimalPlaces++;
+                    }
+                    decimalPlaces += 15;
+                }
+                
+                result = num.toFixed(decimalPlaces);
+                result = result.replace(/\.?0+$/, '');
+            }
+            
+            if (result.includes('e') || result.includes('E')) {
+                result = num.toFixed(50).replace(/\.?0+$/, '');
+            }
+            
+            const parts = result.split('.');
+            let integerPart = parts[0];
+            const decimalPart = parts[1];
+            
+            if (integerPart.length > 3) {
+                integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+            }
+            
+            if (decimalPart) {
+                return integerPart + '.' + decimalPart;
+            } else {
+                return integerPart;
+            }
+        }
+
+        // Initialize
+        updateCategoryOptions();
+    </script>
+</body>
+</html>
