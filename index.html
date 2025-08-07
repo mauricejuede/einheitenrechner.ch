@@ -674,201 +674,201 @@
 
     <script>
         const conversions = {
-            math: {
-                'Länge': {
-                    units: {
-                        'Kilometer (km)': '1000',
-                        'Meter (m)': '1',
-                        'Dezimeter (dm)': '0.1',
-                        'Zentimeter (cm)': '0.01',
-                        'Millimeter (mm)': '0.001',
-                        'Mikrometer (μm)': '0.000001'
-                    },
-                    shortUnits: {
-                        'Kilometer (km)': 'km',
-                        'Meter (m)': 'm',
-                        'Dezimeter (dm)': 'dm',
-                        'Zentimeter (cm)': 'cm',
-                        'Millimeter (mm)': 'mm',
-                        'Mikrometer (μm)': 'μm'
-                    },
-                    baseUnit: 'm',
-                    visualOrder: ['km', 'm', 'dm', 'cm', 'mm', 'μm']
-                },
-                'Gewicht': {
-                    units: {
-                        'Tonnen (t)': '1000000',
-                        'Kilogramm (kg)': '1000',
-                        'Gramm (g)': '1',
-                        'Milligramm (mg)': '0.001',
-                        'Mikrogramm (μg)': '0.000001'
-                    },
-                    shortUnits: {
-                        'Tonnen (t)': 't',
-                        'Kilogramm (kg)': 'kg',
-                        'Gramm (g)': 'g',
-                        'Milligramm (mg)': 'mg',
-                        'Mikrogramm (μg)': 'μg'
-                    },
-                    baseUnit: 'g',
-                    visualOrder: ['t', 'kg', 'g', 'mg', 'μg']
-                },
-                'Zeit': {
-                    units: {
-                        'Tage (d)': '86400',
-                        'Stunden (h)': '3600',
-                        'Minuten (min)': '60',
-                        'Sekunden (s)': '1',
-                        'Millisekunden (ms)': '0.001'
-                    },
-                    shortUnits: {
-                        'Tage (d)': 'd',
-                        'Stunden (h)': 'h',
-                        'Minuten (min)': 'min',
-                        'Sekunden (s)': 's',
-                        'Millisekunden (ms)': 'ms'
-                    },
-                    baseUnit: 's',
-                    visualOrder: ['d', 'h', 'min', 's', 'ms']
-                },
-                'Fläche': {
-                    units: {
-                        'Quadratkilometer (km²)': '1000000',
-                        'Hektar (ha)': '10000',
-                        'Ar (a)': '100',
-                        'Quadratmeter (m²)': '1',
-                        'Quadratdezimeter (dm²)': '0.01',
-                        'Quadratzentimeter (cm²)': '0.0001',
-                        'Quadratmillimeter (mm²)': '0.000001'
-                    },
-                    shortUnits: {
-                        'Quadratkilometer (km²)': 'km²',
-                        'Hektar (ha)': 'ha',
-                        'Ar (a)': 'a',
-                        'Quadratmeter (m²)': 'm²',
-                        'Quadratdezimeter (dm²)': 'dm²',
-                        'Quadratzentimeter (cm²)': 'cm²',
-                        'Quadratmillimeter (mm²)': 'mm²'
-                    },
-                    baseUnit: 'm²',
-                    visualOrder: ['km²', 'ha', 'a', 'm²', 'dm²', 'cm²', 'mm²']
-                },
-                'Volumen': {
-                    units: {
-                        'Kubikkilometer (km³)': '1000000000',
-                        'Kubikmeter (m³)': '1',
-                        'Liter (l)': '0.001',
-                        'Kubikdezimeter (dm³)': '0.001',
-                        'Milliliter (ml)': '0.000001',
-                        'Kubikzentimeter (cm³)': '0.000001',
-                        'Kubikmillimeter (mm³)': '0.000000001'
-                    },
-                    shortUnits: {
-                        'Kubikkilometer (km³)': 'km³',
-                        'Kubikmeter (m³)': 'm³',
-                        'Liter (l)': 'l',
-                        'Kubikdezimeter (dm³)': 'dm³',
-                        'Milliliter (ml)': 'ml',
-                        'Kubikzentimeter (cm³)': 'cm³',
-                        'Kubikmillimeter (mm³)': 'mm³'
-                    },
-                    baseUnit: 'm³',
-                    visualOrder: ['km³', 'm³', 'dm³', 'l', 'cm³', 'ml', 'mm³']
-                },
-                'Litereinheiten': {
-                    units: {
-                        'Liter (l)': '1',
-                        'Deziliter (dl)': '0.1',
-                        'Zentiliter (cl)': '0.01',
-                        'Milliliter (ml)': '0.001'
-                    },
-                    shortUnits: {
-                        'Liter (l)': 'l',
-                        'Deziliter (dl)': 'dl',
-                        'Zentiliter (cl)': 'cl',
-                        'Milliliter (ml)': 'ml'
-                    },
-                    baseUnit: 'l',
-                    visualOrder: ['l', 'dl', 'cl', 'ml']
-                }
+    math: {
+        'Länge': {
+            units: {
+                'Kilometer (km)': '0.001',
+                'Meter (m)': '1',
+                'Dezimeter (dm)': '10',
+                'Zentimeter (cm)': '100',
+                'Millimeter (mm)': '1000',
+                'Mikrometer (μm)': '1000000'
             },
-            science: {
-                'Kraft': {
-                    units: {
-                        'Newton (N)': '1',
-                        'Kilonewton (kN)': '1000',
-                        'Millinewton (mN)': '0.001'
-                    },
-                    shortUnits: {
-                        'Newton (N)': 'N',
-                        'Kilonewton (kN)': 'kN',
-                        'Millinewton (mN)': 'mN'
-                    },
-                    baseUnit: 'N',
-                    visualOrder: ['kN', 'N', 'mN']
-                },
-                'Geschwindigkeit': {
-                    units: {
-                        'Meter pro Sekunde (m/s)': '1',
-                        'Kilometer pro Stunde (km/h)': '0.277777777777777778',
-                        'Meilen pro Stunde (mph)': '0.44704'
-                    },
-                    shortUnits: {
-                        'Meter pro Sekunde (m/s)': 'm/s',
-                        'Kilometer pro Stunde (km/h)': 'km/h',
-                        'Meilen pro Stunde (mph)': 'mph'
-                    },
-                    baseUnit: 'm/s',
-                    visualOrder: ['km/h', 'm/s', 'mph']
-                },
-                'Energie': {
-                    units: {
-                        'Joule (J)': '1',
-                        'Kilojoule (kJ)': '1000',
-                        'Wattstunden (Wh)': '3600',
-                        'Kilowattstunden (kWh)': '3600000',
-                        'Kalorien (cal)': '4.184'
-                    },
-                    shortUnits: {
-                        'Joule (J)': 'J',
-                        'Kilojoule (kJ)': 'kJ',
-                        'Wattstunden (Wh)': 'Wh',
-                        'Kilowattstunden (kWh)': 'kWh',
-                        'Kalorien (cal)': 'cal'
-                    },
-                    baseUnit: 'J',
-                    visualOrder: ['kWh', 'Wh', 'kJ', 'J', 'cal']
-                },
-                'Leistung': {
-                    units: {
-                        'Watt (W)': '1',
-                        'Kilowatt (kW)': '1000',
-                        'Megawatt (MW)': '1000000',
-                        'Pferdestärken (PS)': '735.5'
-                    },
-                    shortUnits: {
-                        'Watt (W)': 'W',
-                        'Kilowatt (kW)': 'kW',
-                        'Megawatt (MW)': 'MW',
-                        'Pferdestärken (PS)': 'PS'
-                    },
-                    baseUnit: 'W',
-                    visualOrder: ['MW', 'kW', 'W', 'PS']
-                },
-                'Temperatur': {
-                    units: {
-                        'Celsius (°C)': 'celsius',
-                        'Fahrenheit (°F)': 'fahrenheit'
-                    },
-                    shortUnits: {
-                        'Celsius (°C)': '°C',
-                        'Fahrenheit (°F)': '°F'
-                    },
-                    special: true,
-                    visualOrder: ['°C', '°F']
-                }
-            }
-        };
+            shortUnits: {
+                'Kilometer (km)': 'km',
+                'Meter (m)': 'm',
+                'Dezimeter (dm)': 'dm',
+                'Zentimeter (cm)': 'cm',
+                'Millimeter (mm)': 'mm',
+                'Mikrometer (μm)': 'μm'
+            },
+            baseUnit: 'm',
+            visualOrder: ['km', 'm', 'dm', 'cm', 'mm', 'μm']
+        },
+        'Gewicht': {
+            units: {
+                'Tonnen (t)': '0.000001',
+                'Kilogramm (kg)': '0.001',
+                'Gramm (g)': '1',
+                'Milligramm (mg)': '1000',
+                'Mikrogramm (μg)': '1000000'
+            },
+            shortUnits: {
+                'Tonnen (t)': 't',
+                'Kilogramm (kg)': 'kg',
+                'Gramm (g)': 'g',
+                'Milligramm (mg)': 'mg',
+                'Mikrogramm (μg)': 'μg'
+            },
+            baseUnit: 'g',
+            visualOrder: ['t', 'kg', 'g', 'mg', 'μg']
+        },
+        'Zeit': {
+            units: {
+                'Tage (d)': '0.000011574',
+                'Stunden (h)': '0.000277778',
+                'Minuten (min)': '0.016666667',
+                'Sekunden (s)': '1',
+                'Millisekunden (ms)': '1000'
+            },
+            shortUnits: {
+                'Tage (d)': 'd',
+                'Stunden (h)': 'h',
+                'Minuten (min)': 'min',
+                'Sekunden (s)': 's',
+                'Millisekunden (ms)': 'ms'
+            },
+            baseUnit: 's',
+            visualOrder: ['d', 'h', 'min', 's', 'ms']
+        },
+        'Fläche': {
+            units: {
+                'Quadratkilometer (km²)': '0.000001',
+                'Hektar (ha)': '0.0001',
+                'Ar (a)': '0.01',
+                'Quadratmeter (m²)': '1',
+                'Quadratdezimeter (dm²)': '100',
+                'Quadratzentimeter (cm²)': '10000',
+                'Quadratmillimeter (mm²)': '1000000'
+            },
+            shortUnits: {
+                'Quadratkilometer (km²)': 'km²',
+                'Hektar (ha)': 'ha',
+                'Ar (a)': 'a',
+                'Quadratmeter (m²)': 'm²',
+                'Quadratdezimeter (dm²)': 'dm²',
+                'Quadratzentimeter (cm²)': 'cm²',
+                'Quadratmillimeter (mm²)': 'mm²'
+            },
+            baseUnit: 'm²',
+            visualOrder: ['km²', 'ha', 'a', 'm²', 'dm²', 'cm²', 'mm²']
+        },
+        'Volumen': {
+            units: {
+                'Kubikkilometer (km³)': '0.000000001',
+                'Kubikmeter (m³)': '1',
+                'Liter (l)': '1000',
+                'Kubikdezimeter (dm³)': '1000',
+                'Milliliter (ml)': '1000000',
+                'Kubikzentimeter (cm³)': '1000000',
+                'Kubikmillimeter (mm³)': '1000000000'
+            },
+            shortUnits: {
+                'Kubikkilometer (km³)': 'km³',
+                'Kubikmeter (m³)': 'm³',
+                'Liter (l)': 'l',
+                'Kubikdezimeter (dm³)': 'dm³',
+                'Milliliter (ml)': 'ml',
+                'Kubikzentimeter (cm³)': 'cm³',
+                'Kubikmillimeter (mm³)': 'mm³'
+            },
+            baseUnit: 'm³',
+            visualOrder: ['km³', 'm³', 'dm³', 'l', 'cm³', 'ml', 'mm³']
+        },
+        'Litereinheiten': {
+            units: {
+                'Liter (l)': '1',
+                'Deziliter (dl)': '10',
+                'Zentiliter (cl)': '100',
+                'Milliliter (ml)': '1000'
+            },
+            shortUnits: {
+                'Liter (l)': 'l',
+                'Deziliter (dl)': 'dl',
+                'Zentiliter (cl)': 'cl',
+                'Milliliter (ml)': 'ml'
+            },
+            baseUnit: 'l',
+            visualOrder: ['l', 'dl', 'cl', 'ml']
+        }
+    },
+    science: {
+        'Kraft': {
+            units: {
+                'Newton (N)': '1',
+                'Kilonewton (kN)': '0.001',
+                'Millinewton (mN)': '1000'
+            },
+            shortUnits: {
+                'Newton (N)': 'N',
+                'Kilonewton (kN)': 'kN',
+                'Millinewton (mN)': 'mN'
+            },
+            baseUnit: 'N',
+            visualOrder: ['kN', 'N', 'mN']
+        },
+        'Geschwindigkeit': {
+            units: {
+                'Meter pro Sekunde (m/s)': '1',
+                'Kilometer pro Stunde (km/h)': '3.6',
+                'Meilen pro Stunde (mph)': '2.23694'
+            },
+            shortUnits: {
+                'Meter pro Sekunde (m/s)': 'm/s',
+                'Kilometer pro Stunde (km/h)': 'km/h',
+                'Meilen pro Stunde (mph)': 'mph'
+            },
+            baseUnit: 'm/s',
+            visualOrder: ['km/h', 'm/s', 'mph']
+        },
+        'Energie': {
+            units: {
+                'Joule (J)': '1',
+                'Kilojoule (kJ)': '0.001',
+                'Wattstunden (Wh)': '0.000277778',
+                'Kilowattstunden (kWh)': '0.000000277778',
+                'Kalorien (cal)': '0.239006'
+            },
+            shortUnits: {
+                'Joule (J)': 'J',
+                'Kilojoule (kJ)': 'kJ',
+                'Wattstunden (Wh)': 'Wh',
+                'Kilowattstunden (kWh)': 'kWh',
+                'Kalorien (cal)': 'cal'
+            },
+            baseUnit: 'J',
+            visualOrder: ['kWh', 'Wh', 'kJ', 'J', 'cal']
+        },
+        'Leistung': {
+            units: {
+                'Watt (W)': '1',
+                'Kilowatt (kW)': '0.001',
+                'Megawatt (MW)': '0.000001',
+                'Pferdestärken (PS)': '0.00136'
+            },
+            shortUnits: {
+                'Watt (W)': 'W',
+                'Kilowatt (kW)': 'kW',
+                'Megawatt (MW)': 'MW',
+                'Pferdestärken (PS)': 'PS'
+            },
+            baseUnit: 'W',
+            visualOrder: ['MW', 'kW', 'W', 'PS']
+        },
+        'Temperatur': {
+            units: {
+                'Celsius (°C)': 'celsius',
+                'Fahrenheit (°F)': 'fahrenheit'
+            },
+            shortUnits: {
+                'Celsius (°C)': '°C',
+                'Fahrenheit (°F)': '°F'
+            },
+            special: true,
+            visualOrder: ['°C', '°F']
+        }
+    }
+};
 
         let currentTab = 'math';
         let currentCategory = '';
