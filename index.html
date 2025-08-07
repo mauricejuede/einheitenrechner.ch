@@ -1297,52 +1297,56 @@
             return null;
         }
 
+	    
         function formatNumber(num) {
-            if (num === 0) {
-                return '0';
-            }
-            
-            let result;
-            
-            if (Math.abs(num - Math.round(num)) < 1e-15) {
-                result = Math.round(num).toString();
-            } else {
-                const absNum = Math.abs(num);
-                let decimalPlaces = 0;
-                
-                if (absNum >= 1) {
-                    decimalPlaces = 15;
-                } else {
-                    let temp = absNum;
-                    while (temp < 1 && decimalPlaces < 50) {
-                        temp *= 10;
-                        decimalPlaces++;
-                    }
-                    decimalPlaces += 15;
-                }
-                
-                result = num.toFixed(decimalPlaces);
-                result = result.replace(/\.?0+$/, '');
-            }
-            
-            if (result.includes('e') || result.includes('E')) {
-                result = num.toFixed(50).replace(/\.?0+$/, '');
-            }
-            
-            const parts = result.split('.');
-            let integerPart = parts[0];
-            const decimalPart = parts[1];
-            
-            if (integerPart.length > 3) {
-                integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, "'");
-            }
-            
-            if (decimalPart) {
-                return integerPart + '.' + decimalPart;
-            } else {
-                return integerPart;
-            }
+    if (num === 0) {
+        return '0';
+    }
+    
+    // NEUE LOGIK: Bessere Rundung basierend auf Zahlengröße
+    const rounded = Math.round(num * 1e12) / 1e12; // Entferne Floating-Point-Fehler
+    
+    let result;
+    
+    // Prüfe ob es eine ganze Zahl ist
+    if (Math.abs(rounded - Math.round(rounded)) < 1e-10) {
+        result = Math.round(rounded).toString();
+    } else {
+        // Intelligente Dezimalstellen basierend auf Zahlengröße
+        const absNum = Math.abs(rounded);
+        let decimalPlaces;
+        
+        if (absNum >= 1000000) {
+            decimalPlaces = 0;  // Millionen: keine Dezimalstellen
+        } else if (absNum >= 1000) {
+            decimalPlaces = 2;  // Tausende: max 2 Dezimalstellen
+        } else if (absNum >= 1) {
+            decimalPlaces = 6;  // Normale Zahlen: max 6 Dezimalstellen
+        } else if (absNum >= 0.001) {
+            decimalPlaces = 9;  // Kleine Zahlen: max 9 Dezimalstellen
+        } else {
+            decimalPlaces = 12; // Sehr kleine Zahlen: max 12 Dezimalstellen
         }
+        
+        result = rounded.toFixed(decimalPlaces);
+        result = result.replace(/\.?0+$/, ''); // Entferne trailing zeros
+    }
+    
+    // Tausendertrennzeichen mit Apostrophen hinzufügen
+    const parts = result.split('.');
+    let integerPart = parts[0];
+    const decimalPart = parts[1];
+    
+    if (integerPart.length > 3) {
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, "'");
+    }
+    
+    if (decimalPart) {
+        return integerPart + '.' + decimalPart;
+    } else {
+        return integerPart;
+    }
+}
 
         // Initialize
         updateCategoryOptions();
