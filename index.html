@@ -1054,14 +1054,14 @@
         }
 
         function preciseCalculate(value, fromFactor, toFactor) {
-            const valueNum = parseFloat(value);
-            const fromFactorNum = parseFloat(fromFactor);
-            const toFactorNum = parseFloat(toFactor);
-            
-            const result = (valueNum * fromFactorNum);
-            
-            return Math.round(result * 1e10) / 1e10;
-        }
+    		const valueNum = parseFloat(value);
+    
+    		// Zuerst in Basiseinheit umrechnen, dann in Zieleinheit
+    		const baseValue = valueNum / parseFloat(fromFactor);
+    		const result = baseValue * parseFloat(toFactor);
+    
+    		return Math.round(result * 1e10) / 1e10;
+		}
 
         function convertTemperature(value, fromUnit, resultsList) {
             resultsList.innerHTML = '';
