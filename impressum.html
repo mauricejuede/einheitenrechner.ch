@@ -105,6 +105,50 @@
             margin: 10px 0 0 0;
             font-size: 1rem;
         }
+                /* Footer Styles */
+        .footer {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
         
     </style>
 </head>
@@ -145,5 +189,18 @@
             <p>Die Urheber- und alle anderen Rechte an Inhalten, Bildern, Fotos oder anderen Dateien auf dieser Website, gehören ausschliesslich einheitenrechner.ch oder den speziell genannten Rechteinhabern. Für die Reproduktion jeglicher Elemente ist die schriftliche Zustimmung des Urheberrechtsträgers im Voraus einzuholen.</p>
         </div>
     </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="impressum.html">Impressum</a>
+            <a href="datenschutz.html">Datenschutz</a>
+        </div>
+        <div class="footer-copyright">
+            © 2025 EinheitenRechner.ch - Alle Rechte vorbehalten
+        </div>
+    </footer>
+</body>
 </body>
 </html>
