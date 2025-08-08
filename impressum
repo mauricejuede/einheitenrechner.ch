@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressum - EinheitenRechner.ch</title>
+    <style>
+        /* Legal Page Styles */
+        .legal-page {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .legal-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            line-height: 1.6;
+        }
+
+        .legal-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .legal-header h1 {
+            color: #333;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .legal-header a {
+            color: #4facfe;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .legal-header a:hover {
+            text-decoration: underline;
+        }
+
+        .legal-content {
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .legal-content h2 {
+            color: #333;
+            font-size: 1.5rem;
+            margin: 30px 0 15px 0;
+            border-bottom: 2px solid #4facfe;
+            padding-bottom: 10px;
+        }
+
+        .legal-content h3 {
+            color: #4facfe;
+            font-size: 1.2rem;
+            margin: 20px 0 10px 0;
+        }
+
+        .legal-content p {
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4facfe;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body class="legal-page">
+    <div class="legal-container">
+        <div class="legal-header">
+            <h1>Impressum</h1>
+            <p><a href="index.html">&larr; Zurück zum Einheitenumrechner</a></p>
+        </div>
+        
+        <div class="legal-content">
+            <div class="contact-info">
+                <h2>Angaben gemäß § 5 TMG</h2>
+                <p><strong>[HIER IHREN NAMEN/FIRMA EINFÜGEN]</strong><br>
+                [HIER IHRE ADRESSE EINFÜGEN]<br>
+                [HIER PLZ UND ORT EINFÜGEN]<br>
+                [HIER LAND EINFÜGEN]</p>
+                
+                <h3>Kontakt</h3>
+                <p>Telefon: [HIER IHRE TELEFONNUMMER EINFÜGEN]<br>
+                E-Mail: [HIER IHRE E-MAIL EINFÜGEN]</p>
+            </div>
+
+            <h2>Haftungsausschluss</h2>
+            
+            <h3>Haftung für Inhalte</h3>
+            <p>[HIER KÖNNEN SIE IHREN HAFTUNGSAUSSCHLUSS FÜR INHALTE EINFÜGEN]</p>
+            
+            <h3>Haftung für Links</h3>
+            <p>[HIER KÖNNEN SIE IHREN HAFTUNGSAUSSCHLUSS FÜR LINKS EINFÜGEN]</p>
+            
+            <h3>Urheberrecht</h3>
+            <p>[HIER KÖNNEN SIE IHRE URHEBERRECHTSHINWEISE EINFÜGEN]</p>
+            
+            <h2>Streitschlichtung</h2>
+            <p>[HIER KÖNNEN SIE HINWEISE ZUR STREITSCHLICHTUNG EINFÜGEN]</p>
+        </div>
+    </div>
+</body>
+</html>
