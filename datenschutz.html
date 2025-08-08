@@ -115,6 +115,50 @@
             margin: 10px 0 0 0;
             font-size: 1rem;
         }
+                /* Footer Styles */
+        .footer {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .footer-copyright {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .footer-links {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
     </style>
     
 </head>
@@ -199,5 +243,18 @@ Wir weisen Sie darauf hin, dass Sie in diesem Fall gegebenenfalls nicht alle Fun
 Die Rechtsgrundlage für die Verarbeitung Ihrer Daten ist eine Interessenabwägung, wonach der oben beschriebenen Verarbeitung Ihrer personenbezogenen Daten keine überwiegenden Interessen Ihrerseits entgegenstehen (Art. 6 Abs. 1 S. 1 lit. f DSGVO). Weitere Informationen zu Google Ads von Google finden Sie unter https://ads.google.com/intl/de_DE/home/, sowie zum Datenschutz bei Google allgemein: https://www.google.de/intl/de/policies/privacy. Alternativ können Sie die Website der Network Advertising Initiative (NAI) unter https://www.networkadvertising.org besuchen.</p>
         </div>
     </div>
+
+</div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="impressum.html">Impressum</a>
+            <a href="datenschutz.html">Datenschutz</a>
+        </div>
+        <div class="footer-copyright">
+            © 2025 EinheitenRechner.ch - Alle Rechte vorbehalten
+        </div>
+    </footer>
 </body>
 </html>
